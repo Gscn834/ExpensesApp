@@ -124,7 +124,7 @@ class _TecladoPantallaState extends State<TecladoPantalla> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: DropdownButtonFormField(
-                value: categoriaSeleccionadaTexto,
+                initialValue: categoriaSeleccionadaTexto,
                 decoration: const InputDecoration(
                   labelText: 'Categoría',
                   border: OutlineInputBorder(),
@@ -133,6 +133,7 @@ class _TecladoPantallaState extends State<TecladoPantalla> {
                   DropdownMenuItem(value: 'Alimentación', child: Text('Alimentación')),
                   DropdownMenuItem(value: 'Transporte', child: Text('Transporte')),
                   DropdownMenuItem(value: 'Servicios', child: Text('Servicios')),
+                  DropdownMenuItem(value: 'Salud', child: Text('Salud')),
                   DropdownMenuItem(value: 'Otros', child: Text('Otros')),
                 ],
                 onChanged: (valor) {

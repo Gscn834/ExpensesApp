@@ -151,11 +151,11 @@ class HomeScreen extends StatelessWidget {
 
 String _iconoCategoria(String categoria) {
   switch (categoria) {
-    case 'Comida':
+    case 'Alimentación':
       return '🍔';
     case 'Transporte':
       return '🚌';
-    case 'Entretenimiento':
+    case 'Servicios':
       return '🎮';
     case 'Salud':
       return '💊';
