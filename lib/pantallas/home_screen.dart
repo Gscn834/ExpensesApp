@@ -83,7 +83,27 @@ class HomeScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: const Icon(Icons.delete, color: Colors.white),
                             ),
- 
+                            //Agregamos un diálogo de confirmación antes de eliminar el gasto
+                            confirmDismiss: (direction) async {
+                              return await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Confirmar eliminación'),
+                                  content: const Text('¿Estás seguro de que deseas eliminar este gasto?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(false),
+                                      child: const Text('Cancelar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(true),
+                                      child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                           
                           onDismissed: (_) {
                             // Eliminar el gasto de Hive
                             caja.delete(e.key);
