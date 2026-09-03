@@ -58,7 +58,11 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
+
+              // 1.5. Tarjeta de Calendario Horizontal (Agregado OG)
+              const _CalendarioCard(),
+              const SizedBox(height: 24),
 
               // 2. Título de la lista
               const Text('Gastos de hoy', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
@@ -69,7 +73,6 @@ class HomeScreen extends StatelessWidget {
                 child: gastosDeHoy.isEmpty
                     ? const Center(child: Text('No hay gastos registrados hoy.', style: TextStyle(color: Colors.black54, fontSize: 16)))
                     : ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 80), // Espacio para el botón flotante (Originalmente era "bottom: 88")
                         itemCount: gastosDeHoy.length,
                         itemBuilder: (context, i) {
                           final e = gastosDeHoy[i];
@@ -153,15 +156,13 @@ class HomeScreen extends StatelessWidget {
 String _iconoCategoria(String categoria) {
   switch (categoria) {
     case 'Alimentación':
-      return '🛒';
+      return '🍔';
     case 'Transporte':
       return '🚌';
     case 'Servicios':
       return '🎮';
     case 'Salud':
       return '💊';
-    case 'Entretenimiento':
-      return '🎬';
     default:
       return '💰';
   }
@@ -218,5 +219,88 @@ class _GastoCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+// NUEVO: Custom Widget para la tarjeta de calendario en formato horizontal
+class _CalendarioCard extends StatelessWidget {
+  const _CalendarioCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final hoy = DateTime.now();
+    final colorPrimario = Theme.of(context).primaryColor;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(5, (index) {
+          // Genera un rango de 5 días centrando el día de "hoy" en el medio
+          final diaDestino = hoy.add(Duration(days: index - 2));
+          final esHoy = diaDestino.day == hoy.day && diaDestino.month == hoy.month;
+
+          // Formatos rápidos de texto
+          final nombreDia = _obtenerNombreDiaCierto(diaDestino.weekday);
+          final numeroDia = diaDestino.day.toString();
+
+          return Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              color: esHoy ? colorPrimario.withValues(alpha: 0.1) : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+              border: esHoy ? Border.all(color: colorPrimario, width: 1.5) : null,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  nombreDia,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: esHoy ? FontWeight.bold : FontWeight.normal,
+                    color: esHoy ? colorPrimario : Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  numeroDia,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: esHoy ? colorPrimario : Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  String _obtenerNombreDiaCierto(int weekday) {
+    switch (weekday) {
+      case 1: return 'Lun';
+      case 2: return 'Mar';
+      case 3: return 'Mié';
+      case 4: return 'Jue';
+      case 5: return 'Vie';
+      case 6: return 'Sáb';
+      case 7: return 'Dom';
+      default: return '';
+    }
   }
 }

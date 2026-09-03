@@ -78,71 +78,107 @@ class _TecladoPantallaState extends State<TecladoPantalla> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 24),
-            const Text(
-              'Agregar Gasto',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 32),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Agregar Gasto',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
 
-            // Cantidad grande
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '\$ $montoIngresado',
+                          style: const TextStyle(
+                            fontSize: 70, 
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                        ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '\$ $montoIngresado',
-                  style: const TextStyle(fontSize: 70, fontWeight: FontWeight.bold, height: 1),
-                ),
-                SizedBox(width: 8),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'USD',
-                    style: TextStyle(fontSize: 20, color: Colors.black54),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 40),
+                        const SizedBox(width: 8),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            'USD',
+                            style: TextStyle(
+                              fontSize: 20,                              
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
-            // Categorías horizontales
-            // Inicio Nuevo Formulario HIVE
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: TextField(
-                controller: conceptoController,
-                decoration: const InputDecoration(
-                  labelText: 'Concepto',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
+                    const SizedBox(height: 16),
 
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: DropdownButtonFormField(
-                initialValue: categoriaSeleccionadaTexto,
-                decoration: const InputDecoration(
-                  labelText: 'Categoría',
-                  border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: TextField(
+                        controller: conceptoController,
+                        decoration: const InputDecoration(
+                          labelText: 'Concepto',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: DropdownButtonFormField(
+                        initialValue: categoriaSeleccionadaTexto,
+                        decoration: const InputDecoration(
+                          labelText: 'Categoría',
+                          border: OutlineInputBorder(),
+                        ),
+
+                        items: const [
+                          DropdownMenuItem(
+                            value: 'Alimentación',
+                            child: Text('Alimentación')
+                          ),
+                          DropdownMenuItem(
+                            value: 'Transporte', 
+                            child: Text('Transporte')
+                          ),
+                          DropdownMenuItem(
+                            value: 'Salud', 
+                            child: Text('Salud')
+                          ),
+                          DropdownMenuItem(
+                            value: 'Servicios', 
+                            child: Text('Servicios')
+                          ),
+                          DropdownMenuItem(
+                            value: 'Entretenimiento', 
+                            child: Text('Entretenimiento')
+                          ),
+                          DropdownMenuItem(
+                            value: 'Otros', 
+                            child: Text('Otros')
+                          ),
+                        ],
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              categoriaSeleccionadaTexto = value;
+                            });
+                          }                          
+                        },                        
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                items: const [
-                  DropdownMenuItem(value: 'Alimentación', child: Text('Alimentación')),
-                  DropdownMenuItem(value: 'Transporte', child: Text('Transporte')),
-                  DropdownMenuItem(value: 'Servicios', child: Text('Servicios')),
-                  DropdownMenuItem(value: 'Salud', child: Text('Salud')),
-                  DropdownMenuItem(value: 'Otros', child: Text('Otros')),
-                ],
-                onChanged: (valor) {
-                  if (valor != null) {
-                    setState(() {
-                      categoriaSeleccionadaTexto = valor;
-                    });
-                  }
-                },
               ),
             ),
 
